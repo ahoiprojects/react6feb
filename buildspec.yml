@@ -9,6 +9,7 @@ phases:
     commands:
       - echo Installation source NPM dependencies.
       - npm install
+      - npm i -D --exact jest-watch-typeahead@0.6.5
       - aws --version
   build:
     commands:

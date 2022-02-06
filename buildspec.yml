@@ -2,7 +2,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 10
+      nodejs: 17
     commands:
       - echo getting Started  
   pre_build:
@@ -14,7 +14,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo first test codes
-      - npm test
+      - CI=true npm test
       - echo Compiling the codes
       - npm run build
       - echo Build finished, now moving to S3

@@ -14,7 +14,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo first test codes
-      - CI=true npm test
+      - npm test
       - echo Compiling the codes
       - npm run build
       - echo Build finished, now moving to S3
@@ -22,5 +22,5 @@ post_build:
     commands:
     - echo Build completed  on `date`
     - aws s3 sync build/ s3://sandip-demo-static-site-s3 --acl public-read
-    
+
 

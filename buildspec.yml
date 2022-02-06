@@ -1,20 +1,26 @@
 version: 0.2
 phases:
+  install:
+    runtime-versions:
+      nodejs: 10
+    commands:
+      - echo getting Started  
   pre_build:
     commands:
-      - aws ecr get-login-password --region us-east-1 
-      - docker login --username AWS --password-stdin 
-      - REPOSITORY_URI=076912770836.dkr.ecr.us-east-1.amazonaws.com/reactappecrrepo
-      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - echo Installation source NPM dependencies.
+      - npm install
+      - aws --version
   build:
     commands:
-      - docker build -t $REPOSITORY_URI:latest .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
-  post_build:
+      - echo Build started on `date`
+      - echo first test codes
+      - CI=true npm test
+      - echo Compiling the codes
+      - npm run build
+      - echo Build finished, now moving to S3
+post_build:
     commands:
-      - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - printf '[{"name":"nginx","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
-artifacts:
-  files: imagedefinitions.json
+    - echo Build completed  on `date`
+    - aws s3 sync build/ s3://sandip-demo-static-site-s3 --acl public-read
+    
+

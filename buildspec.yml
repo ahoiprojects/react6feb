@@ -27,7 +27,4 @@ artifacts:
   files:
     - 'build/*'
   name: demoProjectArticifacts
-  secondary-artifacts:
-      files:
-        - 'build/*'
-      name: demoProjectArticifactssecondary  
+ 

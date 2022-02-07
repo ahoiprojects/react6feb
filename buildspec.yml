@@ -24,10 +24,15 @@ phases:
     - echo Build completed  on `date`
     - aws s3 sync build/ s3://codepipelines3site --acl public-read
 artifacts:
-    files:
-    - echo artifacts publised  on `date`
+  files:
     - 'build/*'
-    name: demoProjectArticifacts
+  name: demoProjectArticifacts
+  secondary-artifacts:
+    artifact1:
+      files:
+        - 'build/*'
+      name: demoProjectArticifactssecondary  
+
     
 
 

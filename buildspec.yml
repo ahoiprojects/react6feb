@@ -17,11 +17,12 @@ phases:
       - echo first test codes
       - npm test
       - echo Compiling the codes
-      - npm run build
+      - npm-run-all
       - echo Build finished, now moving to S3
 post_build:
     commands:
     - echo Build completed  on `date`
     - aws s3 sync build/ s3://sandip-demo-static-site-s3 --acl public-read
+    
 
 

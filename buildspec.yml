@@ -19,7 +19,7 @@ phases:
       - echo Compiling the codes
       - npm run build
       - echo Build finished, now moving to S3
-  post_build:
+post_build:
     commands:
     - echo Build completed  on `date`
     - aws s3 sync build/ s3://codepipelines3site --acl public-read

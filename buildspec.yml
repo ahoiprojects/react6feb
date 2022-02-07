@@ -15,9 +15,9 @@ phases:
     commands:
       - echo Build started on `date`
       - echo first test codes
-      - npm test
+      - npm run test -- --ci --watchAll=false
       - echo Compiling the codes
-      - npm-run-all
+      - npm run build
       - echo Build finished, now moving to S3
 post_build:
     commands:

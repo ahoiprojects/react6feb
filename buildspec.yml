@@ -23,8 +23,8 @@ post_build:
     commands:
     - echo Build completed  on `date`
     - aws s3 sync build/ s3://codepipelines3site --acl public-read
-artifacts:
-  files:
-    - 'build/*'
-  name: demoProjectArticifacts
+# artifacts:
+#   files:
+#     - 'build/*'
+#   name: demoProjectArticifacts
  

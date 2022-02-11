@@ -2,29 +2,24 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 17
-    commands:
-      - echo getting Started  
+      docker: 19
   pre_build:
     commands:
-      - echo Installation source NPM dependencies.
-      - npm install
-      - npm i -D --exact jest-watch-typeahead@0.6.5
-      - aws --version
+      - echo Installation docker dependencies started.
+      - $(aws ecr get-login --region us-east-1 --no-include-email)
+      - REPOSITORY_URI=076912770836.dkr.ecr.us-east-1.amazonaws.com/reactappecrrepo
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
     commands:
-      - echo Build started on `date`
-      - echo first test codes
-      - npm run test -- --ci --watchAll=false
-      - echo Compiling the codes
-      - npm run build
-      - echo Build finished, now moving to S3
-post_build:
+      - docker build -t $REPOSITORY_URI:latest -f Dockerfile.prod .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - cat imagedefinitions.json
+  post_build:
     commands:
-    - echo Build completed  on `date`
-    - aws s3 sync build/ s3://codepipelines3site --acl public-read
-# artifacts:
-#   files:
-#     - 'build/*'
-#   name: demoProjectArticifacts
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - printf '[{"name":"my-app-default-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json
  

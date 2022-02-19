@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload RAMANDEEP KAUR.
+          Edit <code>src/App.js</code> and save to reload RAMANDEEP KAUR with load balanceer check.
         </p>
         <a
           className="App-link"
